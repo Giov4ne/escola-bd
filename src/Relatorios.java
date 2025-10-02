@@ -42,8 +42,8 @@ public class Relatorios {
              ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                String obrigatoriedade = rs.getBoolean("obrigatoria") ? "Sim" : "Não";
-                System.out.printf("Curso: %s, Disciplina: %s, Obrigatoria: %b, Duracao (h): %d\n",
+                String obrigatoriedade = rs.getBoolean("obrigatoria") ? "Sim" : "Nao";
+                System.out.printf("Curso: %s, Disciplina: %s, Obrigatoria: %s, Duracao (h): %d\n",
                         rs.getString("curso"),
                         rs.getString("disciplina"),
                         obrigatoriedade,
