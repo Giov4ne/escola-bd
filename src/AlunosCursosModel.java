@@ -1,4 +1,4 @@
-// AlunosCursosModel.java
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -66,6 +66,6 @@ public class AlunosCursosModel {
                 }
             }
         }
-        return prefixo + String.format("%04d", proximoNumero); // Ex: 20250001
+        return prefixo + String.format("%04d", proximoNumero);
     }
 }

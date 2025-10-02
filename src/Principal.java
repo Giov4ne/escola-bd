@@ -62,6 +62,9 @@ public class Principal {
                         case 16:
                             new MatriculaController().desmatricularAlunoTurma(conexao);
                             break;
+                        case 17:
+                            relatoriosMenu(conexao, input);
+                            break;
                         default:
                             System.out.println("Saindo do sistema...");
                             break;
@@ -70,7 +73,7 @@ public class Principal {
             } catch(SQLException ex) {
                 System.out.println(ex.getMessage());
             }
-        } while(op > 0 && op < 17);  
+        } while(op > 0 && op < 18);  
         conexao.close();
     }    
     
@@ -93,6 +96,7 @@ public class Principal {
         System.out.println("14 - Desmatricular Aluno em um Curso");
         System.out.println("15 - Matricular Aluno em uma Turma");
         System.out.println("16 - Desmatricular Aluno em uma Turma");
+        System.out.println("17 - Relatorios");
         System.out.println("Digite qualquer outro valor para sair");
         System.out.print("Sua opcao: ");
         
@@ -232,5 +236,38 @@ public class Principal {
                     break;
             }
         } while (opSubmenu != 5);
+    }
+    
+    private static void relatoriosMenu(Connection conexao, Scanner input) throws SQLException {
+        int opSubmenu = 0;
+        Relatorios relatoriosController = new Relatorios();
+        
+        do {
+            System.out.println("\n--- MENU DE RELATORIOS ---");
+            System.out.println("1 - Media de notas por aluno em uma disciplina");
+            System.out.println("2 - Disciplinas por curso");
+            System.out.println("3 - Quantidade de alunos por curso");
+            System.out.println("4 - Voltar ao Menu Principal");
+            System.out.print("Sua opcao: ");
+            opSubmenu = input.nextInt();
+
+            switch (opSubmenu) {
+                case 1:
+                    relatoriosController.mediaNotasPorAlunoDisciplina(conexao);
+                    break;
+                case 2:
+                    relatoriosController.disciplinasPorCurso(conexao);
+                    break;
+                case 3:
+                    relatoriosController.quantidadeAlunosPorCurso(conexao);
+                    break;
+                case 4:
+                    System.out.println("Retornando ao menu principal...");
+                    break;
+                default:
+                    System.out.println("Opcao invalida!");
+                    break;
+            }
+        } while (opSubmenu != 4);
     }
 }

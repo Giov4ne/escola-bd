@@ -4,11 +4,9 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.time.format.DateTimeParseException;
 
 public class ProfessorController {
     public void cadastrarProfessor(Connection conexao) throws SQLException {

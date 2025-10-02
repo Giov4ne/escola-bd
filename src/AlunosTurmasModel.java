@@ -1,4 +1,4 @@
-// AlunosTurmasModel.java
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,15 +21,12 @@ public class AlunosTurmasModel {
         }
     }
     
-    // IMPORTANTE: Este método executa a remoção em cascata de forma transacional
     public static void removeCascading(int idAlunoTurma, Connection conn) throws SQLException {
-        // SQL para deletar em ordem de dependência: avaliacoes -> historicos -> alunos_turmas
         String sqlDeleteAvaliacoes = "DELETE FROM avaliacoes WHERE id_aluno_turma = ?";
         String sqlDeleteHistoricos = "DELETE FROM historicos WHERE id_aluno_turma = ?";
         String sqlDeleteAlunoTurma = "DELETE FROM alunos_turmas WHERE id_aluno_turma = ?";
         
         try {
-            // Inicia a transação
             conn.setAutoCommit(false);
 
             try (PreparedStatement stAvaliacoes = conn.prepareStatement(sqlDeleteAvaliacoes)) {
@@ -45,15 +42,12 @@ public class AlunosTurmasModel {
                 stAlunoTurma.executeUpdate();
             }
             
-            // Se tudo deu certo, efetiva a transação
             conn.commit();
 
         } catch (SQLException e) {
-            // Em caso de erro, desfaz a transação
             conn.rollback();
-            throw e; // Lança a exceção para ser tratada pelo Controller
+            throw e;
         } finally {
-            // Restaura o modo de autocommit
             conn.setAutoCommit(true);
         }
     }
