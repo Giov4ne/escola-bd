@@ -38,11 +38,29 @@ public class ResponsavelModel {
     }
     
     static void remove(int id, Connection conn) throws SQLException {
-        String sql = "DELETE FROM responsaveis WHERE id_responsavel = ?";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, id);
-        st.execute();
-        st.close();
+        String sqlUnsetResponsavel = "UPDATE alunos SET id_responsavel = NULL WHERE id_responsavel = ?";
+        String sqlDeleteResponsavel = "DELETE FROM responsaveis WHERE id_responsavel = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stUnset = conn.prepareStatement(sqlUnsetResponsavel)) {
+                stUnset.setInt(1, id);
+                stUnset.executeUpdate();
+            }
+
+            try (PreparedStatement stDelete = conn.prepareStatement(sqlDeleteResponsavel)) {
+                stDelete.setInt(1, id);
+                stDelete.executeUpdate();
+            }
+
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
+        }
     }
 
     static void update(Responsavel responsavel, Connection con) throws SQLException {

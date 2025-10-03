@@ -42,12 +42,30 @@ public class ProfessorModel {
         return list;
     }
     
-    static void remove(int id, Connection conn) throws SQLException {
-        String sql = "DELETE FROM professores WHERE id_professor = ?";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, id);
-        st.execute();
-        st.close();
+    public static void remove(int id, Connection conn) throws SQLException {
+        String sqlDeleteTurmas = "DELETE FROM turmas WHERE id_professor = ?";
+        String sqlDeleteProfessor = "DELETE FROM professores WHERE id_professor = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stTurmas = conn.prepareStatement(sqlDeleteTurmas)) {
+                stTurmas.setInt(1, id);
+                stTurmas.executeUpdate();
+            }
+
+            try (PreparedStatement stProfessor = conn.prepareStatement(sqlDeleteProfessor)) {
+                stProfessor.setInt(1, id);
+                stProfessor.executeUpdate();
+            }
+
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
+        }
     }
     
     static void update(Professor professor, Connection con) throws SQLException {

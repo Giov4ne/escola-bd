@@ -44,11 +44,48 @@ public class AlunoModel {
     }
     
     static void remove(int id, Connection conn) throws SQLException {
-        String sql = "DELETE FROM alunos WHERE id_aluno = ?";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, id);
-        st.execute();
-        st.close();
+        String sqlDeleteAvaliacoes = "DELETE FROM avaliacoes WHERE id_aluno_turma IN (SELECT id_aluno_turma FROM alunos_turmas WHERE id_aluno = ?)";
+        String sqlDeleteHistoricos = "DELETE FROM historicos WHERE id_aluno_turma IN (SELECT id_aluno_turma FROM alunos_turmas WHERE id_aluno = ?)";
+        String sqlDeleteAlunosTurmas = "DELETE FROM alunos_turmas WHERE id_aluno = ?";
+        String sqlDeleteAlunosCursos = "DELETE FROM alunos_cursos WHERE id_aluno = ?";
+        String sqlDeleteAluno = "DELETE FROM alunos WHERE id_aluno = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stAvaliacoes = conn.prepareStatement(sqlDeleteAvaliacoes)) {
+                stAvaliacoes.setInt(1, id);
+                stAvaliacoes.executeUpdate();
+            }
+
+            try (PreparedStatement stHistoricos = conn.prepareStatement(sqlDeleteHistoricos)) {
+                stHistoricos.setInt(1, id);
+                stHistoricos.executeUpdate();
+            }
+
+            try (PreparedStatement stAlunosTurmas = conn.prepareStatement(sqlDeleteAlunosTurmas)) {
+                stAlunosTurmas.setInt(1, id);
+                stAlunosTurmas.executeUpdate();
+            }
+
+            try (PreparedStatement stAlunosCursos = conn.prepareStatement(sqlDeleteAlunosCursos)) {
+                stAlunosCursos.setInt(1, id);
+                stAlunosCursos.executeUpdate();
+            }
+
+            try (PreparedStatement stAluno = conn.prepareStatement(sqlDeleteAluno)) {
+                stAluno.setInt(1, id);
+                stAluno.executeUpdate();
+            }
+
+            conn.commit(); // efetiva todas as operações
+
+        } catch (SQLException e) {
+            conn.rollback(); // desfaz tudo em caso de erro
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
+        }
     }
 
     static void update(Aluno aluno, Connection con) throws SQLException {

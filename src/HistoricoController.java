@@ -69,9 +69,6 @@ public class HistoricoController {
         System.out.println("Histórico removido com sucesso!");
     }
 
-    /**
-     * Método auxiliar para listar alunos-turmas que ainda não estão na tabela de históricos.
-     */
     private Boolean listarInscricoesSemHistorico(Connection conexao) throws SQLException {
         String sql = "SELECT atur.id_aluno_turma, a.nome AS nome_aluno, d.nome AS nome_disciplina " +
                      "FROM alunos_turmas atur " +

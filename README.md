@@ -12,12 +12,12 @@ Para executar o projeto, você precisará ter o seguinte ambiente configurado:
 
 Como Executar no NetBeans
 
-1- Abra o Projeto: Com o NetBeans aberto, vá em Arquivo > Abrir Projeto e selecione a pasta do projeto.
-2- Adicione o Driver JDBC
+1. Abra o Projeto: Com o NetBeans aberto, vá em Arquivo > Abrir Projeto e selecione a pasta do projeto.
+2. Adicione o Driver JDBC
     -> Na árvore de projetos à esquerda, clique com o botão direito sobre a pasta "Bibliotecas" (ou "Libraries").
     -> Selecione a opção "Adicionar JAR/Pasta".
     -> Navegue até o local onde você salvou o arquivo .jar do driver do PostgreSQL e selecione-o.
-3- Execute o Projeto:
+3. Execute o Projeto:
     -> Encontre o arquivo principal, chamado Principal.java.
     -> Clique com o botão direito sobre ele e escolha a opção "Executar Arquivo" (ou pressione Shift + F6).
     -> O menu principal do sistema aparecerá no console de saída do NetBeans.
